@@ -1,15 +1,14 @@
-# Array input
-nums = [1, 12, -5, -6, 50, 3]
-window_size = 4
-window = nums[:window_size]
-average = sum(window) / len(window)
-print(window)
-print(window_size)
+def findMaxAverage(nums: list[int], k: int):
+    # initial window and sum
+    window = nums[:k]
+    window_sum = sum(window)
+    max_sum = window_sum
 
-# Slide window and dynamically calculate average
-for i in range(window_size, len(nums)):
-    # remove first index
-    window.pop(0)
-    window.append(nums[i])
-    average = sum(window) / len(window)
-    print(f"New window: {window} (average: {average})")
+    # slide window
+    for i in range(k, len(nums)):
+        item_leaving = window.pop(0)
+        window.append(nums[i])
+        window_sum += nums[i] - item_leaving
+        max_sum = max(window_sum, max_sum)
+
+    return max_sum / k
